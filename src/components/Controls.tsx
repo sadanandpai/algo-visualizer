@@ -11,7 +11,7 @@ function Controls({
 }: any) {
   return (
     <>
-      <div className="flex gap-6 justify-center">
+      <div className="flex gap-2 px-2 md:px-0 md:gap-6 justify-center">
         <label className="flex">
           <span className="label-text mx-5">Rows</span>
           <input

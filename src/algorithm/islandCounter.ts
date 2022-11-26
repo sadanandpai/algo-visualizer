@@ -8,7 +8,7 @@ export function getNumberOfIslands(grid: boolean[][]) {
   );
 
   let maxSize = 0,
-    minSize = grid.length * grid[0].length,
+    minSize = grid.length * grid[0].length + 1,
     islandCount = 0;
   for (let i = 0; i < gridClone1.length; i++) {
     for (let j = 0; j < gridClone1[0].length; j++) {
@@ -29,7 +29,11 @@ export function getNumberOfIslands(grid: boolean[][]) {
     }
   }
 
-  return { islandCount, biggestIsland: minSize, smallestIsland: maxSize };
+  return {
+    islandCount,
+    smallestIsland: minSize === grid.length * grid[0].length + 1 ? 0 : minSize,
+    biggestIsland: maxSize,
+  };
 }
 
 export function countIslands(
@@ -61,24 +65,27 @@ export const setBorder = (
   i: number,
   j: number
 ) => {
-  let sides = 0;
+  if (cell.validated) {
+    return;
+  }
+
   if (grid[i][j]) {
     if (!grid[i]?.[j - 1]) {
       cell.left = true;
-      sides++;
     }
     if (!grid[i]?.[j + 1]) {
       cell.right = true;
-      sides++;
     }
     if (!grid[i - 1]?.[j]) {
       cell.top = true;
-      sides++;
     }
     if (!grid[i + 1]?.[j]) {
       cell.bottom = true;
-      sides++;
     }
   }
-  return sides;
 };
+
+export const getCellPerimeter = (cell: Partial<BorderIntf>) =>
+  cell.validated
+    ? 0
+    : +!!cell.top + +!!cell.right + +!!cell.bottom + +!!cell.left;

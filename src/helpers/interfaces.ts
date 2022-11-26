@@ -3,4 +3,5 @@ export interface BorderIntf {
   right: boolean;
   top: boolean;
   bottom: boolean;
+  validated: boolean;
 }

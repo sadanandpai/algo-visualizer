@@ -9,10 +9,12 @@ import {
   get2DArrayWithEmptyObject,
   getRandomizedGrid,
 } from "../helpers/helper";
-import { getNumberOfIslands, setBorder } from "../algorithm/islandCounter";
+import { getCellPerimeter, setBorder } from "../algorithm/islandCounter";
 import { useEffect, useRef, useState } from "react";
 
+import { BorderIntf } from "../helpers/interfaces";
 import Controls from "./Controls";
+import IslandInfo from "./IslandInfo";
 import IslandOrWaterButton from "./IslandOrWaterButton";
 import { getNumberOfIslandsAsync } from "../algorithm/islandVisualizer";
 
@@ -20,16 +22,19 @@ function IslandSolver() {
   const [rows, setRows] = useState(rowControl.initialValue);
   const [cols, setCols] = useState(columnControl.initialValue);
   const [grid, setGrid] = useState(getRandomizedGrid(rows, cols));
-  const [gridUI, setGridUI] = useState(get2DArrayWithEmptyObject(rows, cols));
+  const [gridUI, setGridUI] = useState<BorderIntf[][]>(
+    get2DArrayWithEmptyObject(rows, cols)
+  );
   const [isIsland, setIsIsland] = useState(true);
   const [highlightedCell, setHighlightedCell] = useState<{
     i: number;
     j: number;
   }>({ i: -1, j: -1 });
-  const [islands, setIslands] = useState<number>();
+  const [perimeter, setPerimeter] = useState<number>();
   const isSearchInProgress = useRef(false);
 
   const resetGrid = () => {
+    setPerimeter(undefined);
     setGrid(getRandomizedGrid(rows, cols));
     setGridUI(get2DArrayWithEmptyObject(rows, cols));
     isSearchInProgress.current = false;
@@ -47,6 +52,7 @@ function IslandSolver() {
     const j = e.target.closest("button").dataset.j;
     gridClone[i][j] = isIsland;
 
+    setPerimeter(undefined);
     setGrid(gridClone);
     setGridUI(get2DArrayWithEmptyObject(rows, cols));
   };
@@ -66,19 +72,15 @@ function IslandSolver() {
 
       setGridUI((gridUI) => {
         const gridUIClone = gridUI.map((row) => [...row]);
-        perimeter += setBorder(
-          gridUIClone[next.i][next.j],
-          grid,
-          next.i,
-          next.j
-        );
-
+        setBorder(gridUIClone[next.i][next.j], grid, next.i, next.j);
+        perimeter += getCellPerimeter(gridUIClone[next.i][next.j]);
+        gridUIClone[next.i][next.j].validated = true;
         return gridUIClone;
       });
     }
     isSearchInProgress.current = false;
     setHighlightedCell({ i: -1, j: -1 });
-    setIslands(perimeter);
+    setPerimeter(perimeter);
   };
 
   return (
@@ -95,7 +97,9 @@ function IslandSolver() {
         isSearchInProgress={isSearchInProgress.current}
       />
 
-      <div className={`inline-grid grid-rows-${rows} grid-cols-${cols}`}>
+      <div
+        className={`inline-grid grid-rows-${rows} grid-cols-${cols} max-w-[90%]`}
+      >
         {grid.map((row, i) =>
           row.map((cell, j) => (
             <IslandOrWaterButton
@@ -107,33 +111,28 @@ function IslandSolver() {
               highlightedCell={highlightedCell}
               isSearchInProgress={isSearchInProgress.current}
               clickHandler={clickHandler}
+              rows={rows}
+              cols={cols}
             />
           ))
         )}
       </div>
 
-      <div className="flex flex-col m-4 items-center">
+      <div className="flex justify-center m-4 items-center">
         <button
-          className="btn"
+          className="btn btn-primary"
           onClick={countIslandsClickHandler}
           disabled={isSearchInProgress.current}
         >
           {countIslandBtnText}
         </button>
 
-        <button className="btn m-4" onClick={resetGrid}>
+        <button className="btn btn-outline m-4" onClick={resetGrid}>
           {resetBtnText}
         </button>
-
-        <span>No of islands are {getNumberOfIslands(grid).islandCount}</span>
-        <span>
-          Biggest island has {getNumberOfIslands(grid).biggestIsland} sq. units
-        </span>
-        <span>
-          Smallest island has {getNumberOfIslands(grid).smallestIsland} sq.
-          units
-        </span>
       </div>
+
+      <IslandInfo grid={grid} perimeter={perimeter} />
     </>
   );
 }

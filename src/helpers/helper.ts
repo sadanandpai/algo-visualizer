@@ -1,3 +1,5 @@
+import { BorderIntf } from "./interfaces";
+
 export const getRandomizedGrid = (rows: number, cols: number) => {
   const grid = [];
 
@@ -12,8 +14,7 @@ export const getRandomizedGrid = (rows: number, cols: number) => {
   return grid;
 };
 
-export const get2DArrayWithEmptyObject = (rows: number, cols: number) => {
-  return Array.from(new Array(rows), () =>
-    Array.from(new Array(cols), () => ({}))
+export const get2DArrayWithEmptyObject = (rows: number, cols: number) =>
+  <BorderIntf[][]>(
+    Array.from(new Array(rows), () => Array.from(new Array(cols), () => ({})))
   );
-};

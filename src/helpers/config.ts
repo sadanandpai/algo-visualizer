@@ -6,13 +6,13 @@ export const rowControl = {
   label: "Rows",
   min: 4,
   max: 10,
-  initialValue: 5,
+  initialValue: 4,
 };
 export const columnControl = {
   label: "Columns",
   min: 4,
   max: 10,
-  initialValue: 6,
+  initialValue: 4,
 };
 export const optionsControl = [
   { label: "Land", checked: true },
@@ -24,5 +24,5 @@ export const images = {
   water,
 };
 
-export const countIslandBtnText = "Count Islands";
+export const countIslandBtnText = "Mark Islands";
 export const resetBtnText = "Reset";
