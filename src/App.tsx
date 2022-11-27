@@ -1,4 +1,4 @@
-import CountIsland from "./components/IslandSolver";
+import CountIsland from './components/IslandSolver';
 
 function App() {
   return <CountIsland />;

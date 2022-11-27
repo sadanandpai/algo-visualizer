@@ -1,14 +1,16 @@
-import { optionsControl } from "../helpers/config";
+import { optionsControl } from '../helpers/config';
 
-function Controls({
-  rows,
-  cols,
-  setRows,
-  setCols,
-  isIsland,
-  setIsIsland,
-  isSearchInProgress,
-}: any) {
+type ChildProps = {
+  rows: number;
+  cols: number;
+  setRows: Function;
+  setCols: Function;
+  isIsland: boolean;
+  setIsIsland: Function;
+  isSearchInProgress: boolean;
+};
+
+function Controls({ rows, cols, setRows, setCols, isIsland, setIsIsland, isSearchInProgress }: ChildProps) {
   return (
     <>
       <div className="flex gap-2 px-2 md:px-0 md:gap-6 justify-center">
@@ -19,10 +21,8 @@ function Controls({
             min="4"
             max="10"
             value={rows}
-            onChange={(e) => setRows(+e.target.value)}
-            className={`range range-xs ${
-              isSearchInProgress && "cursor-not-allowed"
-            }`}
+            onChange={e => setRows(+e.target.value)}
+            className={`range range-xs ${isSearchInProgress && 'cursor-not-allowed'}`}
             disabled={isSearchInProgress}
           />
         </label>
@@ -33,10 +33,8 @@ function Controls({
             min="4"
             max="10"
             value={cols}
-            onChange={(e) => setCols(+e.target.value)}
-            className={`range range-xs ${
-              isSearchInProgress && "cursor-not-allowed"
-            }`}
+            onChange={e => setCols(+e.target.value)}
+            className={`range range-xs ${isSearchInProgress && 'cursor-not-allowed'}`}
             disabled={isSearchInProgress}
           />
         </label>

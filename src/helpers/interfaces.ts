@@ -5,3 +5,8 @@ export interface BorderIntf {
   bottom: boolean;
   validated: boolean;
 }
+
+export interface CellPosition {
+  i: number;
+  j: number;
+}
