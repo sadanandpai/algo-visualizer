@@ -32,11 +32,11 @@ function IslandInfo({ perimeter, grid }: ChildProps) {
           <p>
             Smallest island has <strong>{info.smallestIsland} sq. units</strong>
           </p>
-          {perimeter && (
+          {perimeter ? (
             <p>
               Total perimeter of islands is <strong>{perimeter} units</strong>
             </p>
-          )}
+          ) : null}
         </>
       ) : null}
     </>

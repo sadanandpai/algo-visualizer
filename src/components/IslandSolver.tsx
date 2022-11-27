@@ -67,6 +67,7 @@ function IslandSolver() {
         const cell = gridUIClone[next.i][next.j];
         setBorder(cell, grid, next.i, next.j);
         perimeter += getCellPerimeter(cell);
+        setPerimeter(perimeter);
         cell.validated = true;
         return gridUIClone;
       });
@@ -74,7 +75,6 @@ function IslandSolver() {
 
     isSearchInProgress.current = false;
     setHighlightedCell(intitialHighlightedCell);
-    setPerimeter(perimeter);
   };
 
   return (
