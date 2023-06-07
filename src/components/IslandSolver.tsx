@@ -17,7 +17,9 @@ const intitialHighlightedCell = {
 function IslandSolver() {
   const [rows, setRows] = useState(rowControl.initialValue);
   const [cols, setCols] = useState(columnControl.initialValue);
+  // Grid of island and water
   const [grid, setGrid] = useState(() => getRandomizedGrid(rows, cols));
+  // Grid of calculation data inside each cells
   const [gridUI, setGridUI] = useState<BorderIntf[][]>(() => get2DArrayWithEmptyObject(rows, cols));
 
   const [isIsland, setIsIsland] = useState(true);
@@ -35,6 +37,7 @@ function IslandSolver() {
   useEffect(resetGrid, [rows, cols]);
 
   const onIslandWaterButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    // Do not allow click during island marking
     if (isSearchInProgress.current) {
       return;
     }
@@ -50,12 +53,13 @@ function IslandSolver() {
   };
 
   const countIslandsClickHandler = async () => {
+    // init grid UI
     setGridUI(get2DArrayWithEmptyObject(rows, cols));
 
     let perimeter = 0;
-    const gen = getNumberOfIslandsAsync(grid);
+    const it = getNumberOfIslandsAsync(grid); // it is an iterator
     isSearchInProgress.current = true;
-    for (const next of gen) {
+    for (const next of it) {
       setHighlightedCell(next);
       await new Promise(r => setTimeout(r, 250));
       if (!isSearchInProgress.current) {
@@ -79,7 +83,17 @@ function IslandSolver() {
 
   return (
     <div className="text-black dark:text-white">
-      <h1 className="text-2xl font-bold mb-4">{pageHeader}</h1>
+      <div className="flex">
+        <h1 className="text-2xl font-bold mb-4 flex-1">{pageHeader}</h1>
+        <a href="https://github.com/sadanandpai/algo-visualizer" target="blank">
+          <img
+            src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+            width={30}
+            height={30}
+            alt="GitHub"
+          />
+        </a>
+      </div>
 
       <Controls
         isIsland={isIsland}

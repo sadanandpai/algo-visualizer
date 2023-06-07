@@ -16,9 +16,9 @@
 
 ### Run in your local
 
-- ```git clone https://github.com/sadanandpai/algo-visualizer.git```
-- ```npm install```
-- ```npm start```
+- `git clone https://github.com/sadanandpai/algo-visualizer.git`
+- `npm install`
+- `npm run dev`
 
 ---
 
