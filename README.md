@@ -11,8 +11,8 @@
 
 - <a href="https://www.solidjs.com/">ReactJS</a>
 - <a href="https://tailwindcss.com/">TailwindCSS</a>
-- <a href="https://github.com/GoogleChromeLabs/comlink">DaisyUI</a> (for web workers)
-- <a href="https://vitejs.dev/">ViteJS</a> (bundler)
+- <a href="https://github.com/GoogleChromeLabs/comlink">DaisyUI</a>
+- <a href="https://vitejs.dev/">ViteJS</a>
 
 ### Run in your local
 
